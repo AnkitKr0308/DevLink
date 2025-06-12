@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../Buttons/Button";
 import appwriteservice from "../../appwrite/AppwriteService";
 
-function AddLinks() {
+function Input() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [tags, setTag] = useState("");
@@ -30,12 +30,12 @@ function AddLinks() {
   };
 
   return (
-    <form className="mt-40" onSubmit={addlink}>
+    <form onSubmit={addlink}>
       <div className="grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label
             htmlFor="title"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Title
           </label>
@@ -51,7 +51,7 @@ function AddLinks() {
         <div>
           <label
             htmlFor="tag"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Tags
           </label>
@@ -67,7 +67,7 @@ function AddLinks() {
       <div className="mb-6">
         <label
           htmlFor="url"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           URL
         </label>
@@ -83,7 +83,7 @@ function AddLinks() {
       <div className="mb-6">
         <label
           htmlFor="decription"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Description
         </label>
@@ -100,4 +100,4 @@ function AddLinks() {
   );
 }
 
-export default AddLinks;
+export default Input;

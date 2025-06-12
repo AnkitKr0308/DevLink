@@ -12,6 +12,8 @@ import Login from "./components/Authentication/Login";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
+import AddLink from "./pages/AddLink";
+import MyLinks from "./pages/MyLinks";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
       {
         path: "support",
         element: <Support />,
+      },
+      {
+        path: "add-link",
+        element: <AddLink />,
+      },
+      {
+        path: "my-link",
+        element: <MyLinks />,
       },
     ],
   },
