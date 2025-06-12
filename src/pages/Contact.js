@@ -1,15 +1,15 @@
 import React from "react";
 import Container from "../components/container/Container";
-import HomeComponent from "../components/Header/HomeComponent";
+import ContactComponent from "../components/Header/ContactComponent";
 
-function Home() {
+function Contact() {
   return (
     <div className="mt-40">
       <Container>
-        <HomeComponent />
+        <ContactComponent />
       </Container>
     </div>
   );
 }
 
-export default Home;
+export default Contact;

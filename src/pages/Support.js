@@ -1,15 +1,15 @@
 import React from "react";
 import Container from "../components/container/Container";
-import HomeComponent from "../components/Header/HomeComponent";
+import SupportComponent from "../components/Header/SupportComponent";
 
-function Home() {
+function Support() {
   return (
     <div className="mt-40">
       <Container>
-        <HomeComponent />
+        <SupportComponent />
       </Container>
     </div>
   );
 }
 
-export default Home;
+export default Support;

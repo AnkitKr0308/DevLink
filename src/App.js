@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
-import Signup from "./components/Authentication/Signup";
-import Container from "./components/container/Container";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <Container>
+    <div className="App min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-grow">
         <Outlet />
-      </Container>
+      </main>
+      <Footer />
     </div>
   );
 }

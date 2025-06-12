@@ -8,6 +8,10 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Home from "./pages/Home";
 import Signup from "./components/Authentication/Signup";
+import Login from "./components/Authentication/Login";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Support from "./pages/Support";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -21,8 +25,24 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/Signup",
+        path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "support",
+        element: <Support />,
       },
     ],
   },

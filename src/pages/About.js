@@ -1,15 +1,15 @@
 import React from "react";
 import Container from "../components/container/Container";
-import HomeComponent from "../components/Header/HomeComponent";
+import AboutComponent from "../components/Header/AboutComponent";
 
-function Home() {
+function About() {
   return (
     <div className="mt-40">
       <Container>
-        <HomeComponent />
+        <AboutComponent />
       </Container>
     </div>
   );
 }
 
-export default Home;
+export default About;
