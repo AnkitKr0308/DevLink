@@ -93,7 +93,7 @@ function Header() {
               {authStatus && (
                 <li>
                   <NavLink
-                    to="/my-links"
+                    to="/my-link"
                     className={({ isActive }) =>
                       `block py-2 px-3 rounded-sm md:p-0 ${
                         isActive
