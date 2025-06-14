@@ -4,7 +4,7 @@ import SupportComponent from "../components/Header/SupportComponent";
 
 function Support() {
   return (
-    <div className="mt-40">
+    <div>
       <Container>
         <SupportComponent />
       </Container>

@@ -32,6 +32,7 @@ function AddLinks() {
 
   return (
     <div>
+      <label className="text-3xl font-bold text-black">Add Link</label>
       <Input ref={inputRef} fields={fields} />
 
       <Button type="button" onClick={handleSubmit}>

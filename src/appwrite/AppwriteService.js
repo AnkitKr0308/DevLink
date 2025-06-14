@@ -19,8 +19,8 @@ export class AppWriteService {
     const user = await authservice.getCurrentUser();
     try {
       return await this.databases.createDocument(
-        conf.appwritedatabaseid,
-        conf.appwritecollectionid,
+        conf.appwriteDatabaseId,
+        conf.appwriteLinkCollectionId,
         ID.unique(),
 
         {
@@ -40,8 +40,8 @@ export class AppWriteService {
   async updatePost(ID, { URL, Title, Description, Date, Tags, userId }) {
     try {
       return await this.databases.updateDocument(
-        conf.appwritedatabaseid,
-        conf.appwritecollectionid,
+        conf.appwriteDatabaseId,
+        conf.appwriteLinkCollectionId,
         ID.unique(),
         {
           URL,
@@ -60,8 +60,8 @@ export class AppWriteService {
   async deletePost(ID) {
     try {
       await this.databases.deleteDocument(
-        conf.appwritedatabaseid,
-        conf.appwritecollectionid,
+        conf.appwriteDatabaseId,
+        conf.appwriteLinkCollectionId,
         ID.unique()
       );
       return true;
@@ -76,13 +76,42 @@ export class AppWriteService {
     const userId = user.$id;
 
     try {
-      await this.databases.listDocuments(
-        conf.appwritedatabaseid,
-        conf.appwritecollectionid,
+      return await this.databases.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteLinkCollectionId,
         [Query.equal("userId", userId)]
       );
     } catch (error) {
       console.error("Error fetching details", error);
+      throw error;
+    }
+  }
+
+  async createSupport({
+    Name,
+    EmailAddress,
+    Contact,
+    Issue,
+    SupportID,
+    userID,
+  }) {
+    const user = await authservice.getCurrentUser();
+    try {
+      return await this.databases.createDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteSupportCollectionId,
+        ID.unique(),
+        {
+          Name,
+          EmailAddress: EmailAddress || user?.email || "",
+          Contact,
+          Issue,
+          SupportID: ID.unique(),
+          userID: userID || user?.$id || "",
+        }
+      );
+    } catch (error) {
+      console.error("Error creating support request", error);
       throw error;
     }
   }

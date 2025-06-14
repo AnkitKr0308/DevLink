@@ -1,12 +1,22 @@
-import React, { useImperativeHandle, useRef, forwardRef } from "react";
+import React, {
+  useImperativeHandle,
+  useRef,
+  useState,
+  forwardRef,
+  useEffect,
+} from "react";
 
 function Input({ fields = [] }, ref) {
-  // const [formValues, setFormValues] = useState(() =>
-  //   fields.reduce((acc, field) => {
-  //     acc[field.name] = "";
-  //     return acc;
-  //   }, {})
-  // );
+  const [formValues, setFormValues] = useState(() =>
+    fields.reduce((acc, field) => {
+      acc[field.name] = field.defaultValue || "";
+      return acc;
+    }, {})
+  );
+
+  useEffect(() => {
+    formRef.current = { ...formValues };
+  }, [formValues]);
 
   const formRef = useRef({});
 
@@ -14,16 +24,18 @@ function Input({ fields = [] }, ref) {
   useImperativeHandle(ref, () => ({
     getFormData: () => ({ ...formRef.current }),
     resetForm: () => {
-      fields.forEach((field) => {
-        formRef.current[field.name] = "";
-      });
+      const resetValue = fields.reduce((acc, field) => {
+        acc[field.name] = "";
+        return acc;
+      }, {});
+      setFormValues(resetValue);
     },
   }));
 
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    formRef.current[name] = value;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
   // const handleSubmit = (e) => {
@@ -38,7 +50,7 @@ function Input({ fields = [] }, ref) {
   // };
 
   return (
-    <form className="mt-40">
+    <form>
       <div className="mb-6 ">
         {fields.map((field) => (
           <div key={field.name} className="mb-4 md:mb-0">
@@ -50,8 +62,7 @@ function Input({ fields = [] }, ref) {
             </label>
             <input
               type={field.type || "text"}
-              defaultValue=""
-              // value={formRef.current[field.name] || ""}
+              value={formValues[field.name] || ""}
               name={field.name}
               id={field.name}
               placeholder={field.placeholder || ""}

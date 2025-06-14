@@ -4,7 +4,7 @@ import AddLinks from "../components/Header/AddLinks";
 
 function AddLink() {
   return (
-    <div>
+    <div className="mt-40">
       <Container>
         <AddLinks />
       </Container>
