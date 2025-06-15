@@ -1,7 +1,7 @@
-import { Client, Databases, ID, Query } from "appwrite";
+import { Client, Databases, ID } from "appwrite";
 import conf from "../conf/conf";
 import authservice from "./auth";
-import getCurrentDateTime from "../components/Date";
+// import getCurrentDateTime from "../components/Date";
 
 export class AppWriteService {
   client = new Client();
@@ -15,27 +15,27 @@ export class AppWriteService {
     this.databases = new Databases(this.client);
   }
 
-  async createPost({ URL, Title, Description, Date, Tags, userId }) {
-    const user = await authservice.getCurrentUser();
-    try {
-      return await this.databases.createDocument(
-        conf.appwriteDatabaseId,
-        conf.appwriteLinkCollectionId,
-        ID.unique(),
+  // async createPost({ URL, Title, Description, Date, Tags, userId }) {
+  //   const user = await authservice.getCurrentUser();
+  //   try {
+  //     return await this.databases.createDocument(
+  //       conf.appwriteDatabaseId,
+  //       conf.appwriteLinkCollectionId,
+  //       ID.unique(),
 
-        {
-          URL,
-          Title,
-          Description,
-          Date: getCurrentDateTime(),
-          Tags,
-          userId: user.$id,
-        }
-      );
-    } catch (error) {
-      console.log("Error creating details", error);
-    }
-  }
+  //       {
+  //         URL,
+  //         Title,
+  //         Description,
+  //         Date: getCurrentDateTime(),
+  //         Tags,
+  //         userId: user.$id,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("Error creating details", error);
+  //   }
+  // }
 
   async updatePost(ID, { URL, Title, Description, Date, Tags, userId }) {
     try {
@@ -71,21 +71,21 @@ export class AppWriteService {
     }
   }
 
-  async fetchDetails() {
-    const user = await authservice.getCurrentUser();
-    const userId = user.$id;
+  // async fetchDetails() {
+  //   const user = await authservice.getCurrentUser();
+  //   const userId = user.$id;
 
-    try {
-      return await this.databases.listDocuments(
-        conf.appwriteDatabaseId,
-        conf.appwriteLinkCollectionId,
-        [Query.equal("userId", userId)]
-      );
-    } catch (error) {
-      console.error("Error fetching details", error);
-      throw error;
-    }
-  }
+  //   try {
+  //     return await this.databases.listDocuments(
+  //       conf.appwriteDatabaseId,
+  //       conf.appwriteLinkCollectionId,
+  //       [Query.equal("userId", userId)]
+  //     );
+  //   } catch (error) {
+  //     console.error("Error fetching details", error);
+  //     throw error;
+  //   }
+  // }
 
   async createSupport({
     Name,

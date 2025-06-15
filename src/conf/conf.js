@@ -8,6 +8,9 @@ const conf = {
   appwriteSupportCollectionId: String(
     process.env.REACT_APP_APPWRITE_SUPPORT_COLLECTION_ID
   ),
+  LinkApiGetUser: String(
+    `${process.env.REACT_APP_DEVLINK_API_BASE_URL}LinkData`
+  ),
 };
 
 export default conf;

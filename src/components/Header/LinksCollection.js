@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import appwriteservice from "../../appwrite/AppwriteService";
+
 import { Link } from "react-router-dom";
+import { GetLinkbyUser } from "../../DevLinkApi/linksdata";
+import authservice from "../../appwrite/auth";
 
 function LinksCollection() {
   const [data, setData] = useState([]);
@@ -9,13 +11,17 @@ function LinksCollection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const linkData = await appwriteservice.fetchDetails();
+        const user = await authservice.getCurrentUser();
+        const userId = user.email;
+        // const linkData = await appwriteservice.fetchDetails();
+        const linkData = await GetLinkbyUser(userId);
         if (linkData) {
-          setData(linkData.documents);
+          setData(linkData);
+
+          console.log("Fetched link data:", linkData);
         }
       } catch (error) {
         console.error("Error fetching data", error);
-        throw error;
       } finally {
         setLoading(false);
       }
@@ -59,26 +65,25 @@ function LinksCollection() {
                   No Data found
                 </td>
               </tr>
-            ) : 
-            (
+            ) : (
               data.map((data) => (
                 <tr
-                  key={data.$id}
+                  key={data.id}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
                 >
                   <td className="px-6 py-4">
                     <Link
-                      to={data.URL}
+                      to={data.url}
                       className="text-blue-500 hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {data.URL}
+                      {data.url}
                     </Link>
                   </td>
-                  <td className="px-6 py-4">{data.Title}</td>
-                  <td className="px-6 py-4">{data.Description}</td>
-                  <td className="px-6 py-4">{data.Tags}</td>
+                  <td className="px-6 py-4">{data.title}</td>
+                  <td className="px-6 py-4">{data.description}</td>
+                  <td className="px-6 py-4">{data.category}</td>
                   <td>
                     <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                       Edit
