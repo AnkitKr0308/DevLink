@@ -1,6 +1,6 @@
-import { Client, Databases, ID } from "appwrite";
+import { Client, Databases } from "appwrite";
 import conf from "../conf/conf";
-import authservice from "./auth";
+
 // import getCurrentDateTime from "../components/Date";
 
 export class AppWriteService {
@@ -87,34 +87,34 @@ export class AppWriteService {
   //   }
   // }
 
-  async createSupport({
-    Name,
-    EmailAddress,
-    Contact,
-    Issue,
-    SupportID,
-    userID,
-  }) {
-    const user = await authservice.getCurrentUser();
-    try {
-      return await this.databases.createDocument(
-        conf.appwriteDatabaseId,
-        conf.appwriteSupportCollectionId,
-        ID.unique(),
-        {
-          Name,
-          EmailAddress: EmailAddress || user?.email || "",
-          Contact,
-          Issue,
-          SupportID: ID.unique(),
-          userID: userID || user?.$id || "",
-        }
-      );
-    } catch (error) {
-      console.error("Error creating support request", error);
-      throw error;
-    }
-  }
+  // async createSupport({
+  //   Name,
+  //   EmailAddress,
+  //   Contact,
+  //   Issue,
+  //   SupportID,
+  //   userID,
+  // }) {
+  //   const user = await authservice.getCurrentUser();
+  //   try {
+  //     return await this.databases.createDocument(
+  //       conf.appwriteDatabaseId,
+  //       conf.appwriteSupportCollectionId,
+  //       ID.unique(),
+  //       {
+  //         Name,
+  //         EmailAddress: EmailAddress || user?.email || "",
+  //         Contact,
+  //         Issue,
+  //         SupportID: ID.unique(),
+  //         userID: userID || user?.$id || "",
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error("Error creating support request", error);
+  //     throw error;
+  //   }
+  // }
 }
 
 const appwriteservice = new AppWriteService();

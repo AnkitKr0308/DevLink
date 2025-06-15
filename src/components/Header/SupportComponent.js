@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import Input from "../Editors/Input";
 import Button from "../Buttons/Button";
-import appwriteservice from "../../appwrite/AppwriteService";
+// import appwriteservice from "../../appwrite/AppwriteService";
 import authservice from "../../appwrite/auth";
 import Modal from "../Editors/Modal";
+import { createSupport } from "../../DevLinkApi/supportapi";
 
 function SupportComponent() {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  // const [values, setValues] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const user = await authservice.getCurrentUser();
-        if (user && user.$email) {
+        if (user && user.email) {
           setUser(user);
         } else {
           setUser(null);
@@ -41,11 +43,11 @@ function SupportComponent() {
     { name: "Name", label: "Name", required: true },
 
     {
-      name: "EmailAddress",
+      name: "Email",
       label: "Email Address",
       required: true,
       type: "email",
-      defaultValue: user?.$email || "",
+      defaultValue: user?.email || "",
     },
     {
       name: "Contact",
@@ -65,22 +67,26 @@ function SupportComponent() {
     const formData = inputRef.current.getFormData();
 
     try {
-      const result = await appwriteservice.createSupport({
+      const result = await createSupport({
         Name: formData.Name,
-        EmailAddress: user ? user.email : formData.EmailAddress,
+        Email: user ? user.email : formData.Email,
         Contact: formData.Contact,
         Issue: formData.Issue,
       });
 
-      setSuccessMsg("Support Request has been created: " + result.$id);
+      console.log(result);
+
+      // setValues((prev) => [...prev, result]);
+
+      setSuccessMsg("Support Request has been created: " + result.supportId);
       setShowModal(true);
-      inputRef.current.resetForm();
+      // inputRef.current.resetForm();
     } catch (error) {
       console.error("Error creating support ticket", error);
       throw error;
     }
   };
-
+  if (!user) return <p>Loading user details...</p>;
   return (
     <div>
       {showModal && (
