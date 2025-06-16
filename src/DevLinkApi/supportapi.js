@@ -18,11 +18,21 @@ export const createSupport = async (supportData) => {
   }
 };
 
-export const getSupportData = async (SupportId) => {
-  const response = await fetch(`${base_url}/${SupportId}`);
+export const GetSupportDataBySupportId = async (caseId) => {
+  const response = await fetch(`${base_url}/CaseId/${caseId}`);
 
   if (!response.ok) {
-    alert("Support ID doesn't exists");
+    console.error("Error getting data");
+  } else {
+    return await response.json();
+  }
+};
+
+export const GetSupportDataByEmail = async (Email) => {
+  const response = await fetch(`${base_url}/Email/${Email}`);
+
+  if (!response.ok) {
+    console.error("Error getting data");
   } else {
     return await response.json();
   }

@@ -7,15 +7,21 @@ import authservice from "../../appwrite/auth";
 
 function AddLinks() {
   const fields = [
-    { name: "Title", label: "Title", required: true },
-    { name: "URL", label: "URL", required: true, type: "url" },
-    { name: "Category", label: "Category", required: false },
+    {
+      name: "Title",
+      label: "Title",
+      id: "title",
+      required: true,
+    },
+    { name: "URL", label: "URL", id: "url", required: true, type: "url" },
+    { name: "Category", label: "Category", id: "category", required: false },
     {
       name: "Description",
       label: "Description",
+      id: "description",
       required: false,
       size: "large",
-    },
+    },  
   ];
 
   const inputRef = useRef();
@@ -37,18 +43,6 @@ function AddLinks() {
       alert("Failed to add link");
     }
   };
-
-  // const handleSubmit = async () => {
-  //   const formData = inputRef.current.getFormData();
-  //   try {
-  //     await appwriteservice.createPost(formData);
-  //     alert("Details added successfully");
-  //     inputRef.current.resetForm();
-  //   } catch (error) {
-  //     console.error("Error adding details", error);
-  //     throw error;
-  //   }
-  // };
 
   return (
     <div>

@@ -1,15 +1,15 @@
 import React from "react";
+import MyCaseComponent from "../components/Header/Support/MyCaseComponent";
 import Container from "../components/container/Container";
-import SupportComponent from "../components/Header/SupportComponent";
 
-function Support() {
+function MyCase() {
   return (
     <div>
       <Container>
-        <SupportComponent />
+        <MyCaseComponent />
       </Container>
     </div>
   );
 }
 
-export default Support;
+export default MyCase;

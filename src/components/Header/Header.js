@@ -4,6 +4,7 @@ import Button from "../Buttons/Button";
 import LogoutBtn from "../Buttons/LogoutBtn";
 import { useSelector } from "react-redux";
 import Navigations from "../Buttons/Navigations";
+import Dropdown from "../Buttons/Dropdown";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status);
@@ -42,9 +43,7 @@ function Header() {
               <li>
                 <Navigations to="/">Home</Navigations>
               </li>
-              <li>
-                <Navigations to="/about">About</Navigations>
-              </li>
+              
               {authStatus && (
                 <li>
                   <Navigations to="/my-link">My Links</Navigations>
@@ -56,8 +55,14 @@ function Header() {
                 </li>
               )}
               {authStatus && (
-                <li>
-                  <Navigations to="/support">Support</Navigations>
+                <li className="relative">
+                  <Dropdown
+                    label="Support"
+                    items={[
+                      { label: "Create Case", to: "/CreateCase" },
+                      { label: "My Case", to: "/MyCase" },
+                    ]}
+                  />
                 </li>
               )}
               <li>

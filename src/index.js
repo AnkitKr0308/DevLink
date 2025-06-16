@@ -9,11 +9,13 @@ import store from "./store/store";
 import Home from "./pages/Home";
 import Signup from "./components/Authentication/Signup";
 import Login from "./components/Authentication/Login";
-import About from "./pages/About";
+
 import Contact from "./pages/Contact";
-import Support from "./pages/Support";
+
 import AddLink from "./pages/AddLink";
 import MyLinks from "./pages/MyLinks";
+import CreateCase from "./pages/CreateCase";
+import MyCase from "./pages/MyCase";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -34,17 +36,19 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      {
-        path: "about",
-        element: <About />,
-      },
+
       {
         path: "contact",
         element: <Contact />,
       },
+
       {
-        path: "support",
-        element: <Support />,
+        path: "createcase",
+        element: <CreateCase />,
+      },
+      {
+        path: "MyCase",
+        element: <MyCase />,
       },
       {
         path: "add-link",

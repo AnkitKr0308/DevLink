@@ -9,7 +9,7 @@ import React, {
 function Input({ fields = [] }, ref) {
   const [formValues, setFormValues] = useState(() =>
     fields.reduce((acc, field) => {
-      acc[field.name] = field.defaultValue || "";
+      acc[field.id] = field.defaultValue || "";
       return acc;
     }, {})
   );
@@ -25,7 +25,7 @@ function Input({ fields = [] }, ref) {
     getFormData: () => ({ ...formRef.current }),
     resetForm: () => {
       const resetValue = fields.reduce((acc, field) => {
-        acc[field.name] = "";
+        acc[field.id] = "";
         return acc;
       }, {});
       setFormValues(resetValue);
@@ -34,41 +34,31 @@ function Input({ fields = [] }, ref) {
 
   const handleChange = (e) => {
     e.preventDefault();
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    const { id, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [id]: value }));
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   onSubmit(formValues);
-  //   setFormValues(() =>
-  //     fields.reduce((acc, field) => {
-  //       acc[field.name] = "";
-  //       return acc;
-  //     }, {})
-  //   );
-  // };
 
   return (
     <form>
       <div className="mb-6 ">
         {fields.map((field) => (
-          <div key={field.name} className="mb-4 md:mb-0">
+          <div key={field.id} className="mb-4 md:mb-0">
             <label
-              htmlFor={field.name}
+              htmlFor={field.id}
               className=" mb-1 text-sm flex ml-2 mt-3 justify-start font-medium text-gray-900 dark:text-black"
             >
               {field.label}
             </label>
             <input
               type={field.type || "text"}
-              value={formValues[field.name] || ""}
+              value={formValues[field.id] || ""}
               name={field.name}
-              id={field.name}
+              id={field.id}
               placeholder={field.placeholder || ""}
               required={field.required}
               onChange={handleChange}
               pattern={field.pattern}
+              readOnly={field.readOnly}
               className={`${
                 field.size === "large"
                   ? "w-full h-[8vh] px-4 py-3 text-base"
