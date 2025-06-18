@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function DataTable({ columns, data, loading = false, actions, baseLink = "" }) {
+function DataTable({
+  columns,
+  data,
+  loading = false,
+  actions,
+  baseLink = "",
+  rowkey = "",
+}) {
   return (
     <div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -35,25 +42,41 @@ function DataTable({ columns, data, loading = false, actions, baseLink = "" }) {
           ) : (
             data.map((data) => (
               <tr
-                key={data.id}
+                key={data[rowkey]}
                 className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
               >
                 {columns.map((col) => (
                   <td key={col.id} className="px-9 py-4">
                     {col.type === "link" ? (
-                      <Link
-                        to={`${baseLink}/${data[col.id]}`}
-                        className="text-blue-500 hover:underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {data[col.id]}
-                      </Link>
+                      col.isExternal ? (
+                        <Link
+                          to={data[col.id]}
+                          className="text-blue-500 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {data[col.id]}
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`${baseLink}/${data[col.id]}`}
+                          className="text-blue-500 hover:underline"
+                          onClick={(e) => {
+                            if (col.onClick) {
+                              e.preventDefault();
+                              col.onClick(data);
+                            }
+                          }}
+                        >
+                          {data[col.id]}
+                        </Link>
+                      )
                     ) : (
                       data[col.id]
                     )}
                   </td>
                 ))}
+                {actions && <td className="px-9 py-4">{actions(data)}</td>}
               </tr>
             ))
           )}

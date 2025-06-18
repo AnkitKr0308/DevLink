@@ -11,18 +11,25 @@ function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
+  const [errorMsg, SetErrorMsg] = useState("");
 
   const loginuser = async (e) => {
     e.preventDefault();
-    const userData = await authservice.login(email, password);
-    if (userData) {
-      const user = await authservice.getCurrentUser();
-      if (user) {
-        dispatch(login(user));
-        navigate("/");
+    try {
+      const userData = await authservice.login(email, password);
+      if (userData) {
+        const user = await authservice.getCurrentUser();
+        if (user) {
+          dispatch(login(user));
+          navigate("/");
+        } else {
+          navigate("/signup");
+        }
       } else {
-        navigate("/signup");
+        SetErrorMsg("Invalid Email or Password!");
       }
+    } catch (error) {
+      alert("Error logging in user", error);
     }
   };
 
@@ -37,6 +44,13 @@ function Login() {
             Login
           </label>
         </div>
+
+        {errorMsg && (
+          <label className="text-red-600 text-xl font-bold font-mono block mb-4 ml-2">
+            {errorMsg}
+          </label>
+        )}
+
         <div className="mb-5">
           <label
             htmlFor="email"

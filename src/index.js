@@ -9,13 +9,12 @@ import store from "./store/store";
 import Home from "./pages/Home";
 import Signup from "./components/Authentication/Signup";
 import Login from "./components/Authentication/Login";
-
 import Contact from "./pages/Contact";
-
-import AddLink from "./pages/AddLink";
 import MyLinks from "./pages/MyLinks";
 import CreateCase from "./pages/CreateCase";
 import MyCase from "./pages/MyCase";
+import CaseDetailspage from "./pages/CaseDetailspage";
+import ProtectedRoute from "./components/Authentication/ProtectedRoute";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -44,19 +43,38 @@ const router = createBrowserRouter([
 
       {
         path: "createcase",
-        element: <CreateCase />,
+        element: (
+          <ProtectedRoute>
+            <CreateCase />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "MyCase",
-        element: <MyCase />,
+        element: (
+          <ProtectedRoute>
+            <MyCase />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: ":id",
+            element: (
+              <ProtectedRoute>
+                <CaseDetailspage />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
-      {
-        path: "add-link",
-        element: <AddLink />,
-      },
+
       {
         path: "my-link",
-        element: <MyLinks />,
+        element: (
+          <ProtectedRoute>
+            <MyLinks />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

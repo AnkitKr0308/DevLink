@@ -16,9 +16,6 @@ function Header() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <NavLink to="/">
             <img src="/DevLink.png" className="h-12" alt="DevLink Logo" />
-            {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              DevLink
-            </span> */}
           </NavLink>
 
           {!authStatus ? (
@@ -43,17 +40,13 @@ function Header() {
               <li>
                 <Navigations to="/">Home</Navigations>
               </li>
-              
+
               {authStatus && (
                 <li>
                   <Navigations to="/my-link">My Links</Navigations>
                 </li>
               )}
-              {authStatus && (
-                <li>
-                  <Navigations to="/add-link">Add Link</Navigations>
-                </li>
-              )}
+
               {authStatus && (
                 <li className="relative">
                   <Dropdown

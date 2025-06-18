@@ -2,13 +2,27 @@ import React, { useState, useEffect } from "react";
 import DataTable from "../../DataTable";
 import { GetSupportDataByEmail } from "../../../DevLinkApi/supportapi";
 import authservice from "../../../appwrite/auth";
+import Drawer from "../../Editors/Drawer";
+import CaseDetails from "./CaseDetails";
 
 function MyCaseComponent() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedCaseId, setSelectedCaseId] = useState(null);
+
+  const openDrawer = (id) => {
+    setSelectedCaseId(id);
+    setDrawerOpen(true);
+  };
 
   const columns = [
-    { label: "Case ID", id: "caseId", type: "link" },
+    {
+      label: "Case ID",
+      id: "caseId",
+      type: "link",
+      onClick: (data) => openDrawer(data.caseId),
+    },
     { label: "Name", id: "name" },
     { label: "Email", id: "email" },
     { label: "Contact", id: "contact" },
@@ -40,8 +54,18 @@ function MyCaseComponent() {
           columns={columns}
           data={data}
           loading={loading}
-          baseLink="MyCase"
+          baseLink="."
+          rowkey="caseId"
         ></DataTable>
+        {drawerOpen && (
+          <Drawer
+            isOpen={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            label="Case Details"
+          >
+            {selectedCaseId && <CaseDetails caseId={selectedCaseId} />}
+          </Drawer>
+        )}
       </div>
     </div>
   );

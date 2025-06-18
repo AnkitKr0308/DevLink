@@ -23,13 +23,11 @@ function CreateCaseComponent() {
 
     try {
       const result = await createSupport({
-        Name: formData.Name,
-        Email: user ? user.email : formData.Email,
-        Contact: formData.Contact,
-        Issue: formData.Issue,
+        Name: formData.name,
+        Email: user ? user.email : formData.email,
+        Contact: formData.contact,
+        Issue: formData.issue,
       });
-
-      console.log(result);
 
       // setValues((prev) => [...prev, result]);
 
@@ -75,13 +73,23 @@ function CreateCaseComponent() {
     return (
       <div>
         {showModal && (
-          <Modal onClose={() => setShowModal(false)}>{successMsg}</Modal>
+          <Modal header="Case Raised" onClose={() => setShowModal(false)}>
+            {successMsg}
+            <div className="text-right">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800"
+              >
+                OK
+              </button>
+            </div>
+          </Modal>
         )}
 
         <h2 className="text-3xl font-bold text-black mt-40 mb-10">
           Register a Complaint
         </h2>
-        <Input ref={inputRef} fields={fields} />
+        <Input ref={inputRef} fields={fields} labelColor="text-black" />
         <Button type="button" onClick={handleSubmit}>
           Submit
         </Button>
