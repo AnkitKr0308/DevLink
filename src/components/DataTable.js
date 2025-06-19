@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function DataTable({
@@ -9,6 +9,26 @@ function DataTable({
   baseLink = "",
   rowkey = "",
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 8;
+
+  const safeData = Array.isArray(data) ? data : [];
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const paginatedData = safeData.slice(startIndex, startIndex + rowsPerPage);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
   return (
     <div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -29,20 +49,26 @@ function DataTable({
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="5" className="text-center py-4">
+              <td
+                colSpan={columns.length + (actions ? 1 : 0)}
+                className="text-center py-4"
+              >
                 Loading...
               </td>
             </tr>
-          ) : data.length === 0 ? (
+          ) : paginatedData.length === 0 ? (
             <tr>
-              <td colSpan="5" className="text-center py-4">
+              <td
+                colSpan={columns.length + (actions ? 1 : 0)}
+                className="text-center py-4"
+              >
                 No Data found
               </td>
             </tr>
           ) : (
-            data.map((data) => (
+            paginatedData.map((dataItem) => (
               <tr
-                key={data[rowkey]}
+                key={dataItem[rowkey]}
                 className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
               >
                 {columns.map((col) => (
@@ -50,38 +76,62 @@ function DataTable({
                     {col.type === "link" ? (
                       col.isExternal ? (
                         <Link
-                          to={data[col.id]}
+                          to={dataItem[col.id]}
                           className="text-blue-500 hover:underline"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {data[col.id]}
+                          {dataItem[col.id]}
                         </Link>
                       ) : (
                         <Link
-                          to={`${baseLink}/${data[col.id]}`}
+                          to={`${baseLink}/${dataItem[col.id]}`}
                           className="text-blue-500 hover:underline"
                           onClick={(e) => {
                             if (col.onClick) {
                               e.preventDefault();
-                              col.onClick(data);
+                              col.onClick(dataItem);
                             }
                           }}
                         >
-                          {data[col.id]}
+                          {dataItem[col.id]}
                         </Link>
                       )
                     ) : (
-                      data[col.id]
+                      dataItem[col.id]
                     )}
                   </td>
                 ))}
-                {actions && <td className="px-9 py-4">{actions(data)}</td>}
+                {actions && <td className="px-9 py-4">{actions(dataItem)}</td>}
               </tr>
             ))
           )}
         </tbody>
       </table>
+
+      <div className="bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 px-6 py-3 flex justify-between items-center text-sm text-gray-700 dark:text-gray-300">
+        <div>
+          {currentPage > 1 && (
+            <button
+              onClick={handlePrevious}
+              className="bg-blue-500 text-white px-4 py-1.5 rounded hover:bg-blue-600"
+            >
+              ❮ Prev
+            </button>
+          )}
+        </div>
+        <div>{totalPages > 0 ? `${currentPage}/${totalPages}` : ""}</div>
+        <div>
+          {currentPage < totalPages && (
+            <button
+              onClick={handleNext}
+              className="bg-blue-500 text-white px-4 py-1.5 rounded hover:bg-blue-600"
+            >
+              Next ❯
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

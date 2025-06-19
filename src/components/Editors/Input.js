@@ -6,7 +6,10 @@ import React, {
   useEffect,
 } from "react";
 
-function Input({ fields = [], labelColor = "text-black" }, ref) {
+function Input(
+  { fields = [], labelColor = "text-black", defaultValues = {} },
+  ref
+) {
   const [formValues, setFormValues] = useState(() =>
     fields.reduce((acc, field) => {
       acc[field.id] = field.defaultValue || "";
@@ -18,6 +21,15 @@ function Input({ fields = [], labelColor = "text-black" }, ref) {
   useEffect(() => {
     formRef.current = { ...formValues };
   }, [formValues]);
+
+  useEffect(() => {
+    if (defaultValues && Object.keys(defaultValues).length > 0) {
+      setFormValues((prev) => ({
+        ...prev,
+        ...defaultValues,
+      }));
+    }
+  }, [defaultValues]);
 
   //useImperativeHandle is a React hook that lets you customize the instance value that is exposed when using ref with forwardRef.
   useImperativeHandle(ref, () => ({
